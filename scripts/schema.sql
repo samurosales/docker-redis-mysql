@@ -1,0 +1,1 @@
+CREATE TABLE notes (id INT, note VARCHAR(200));
