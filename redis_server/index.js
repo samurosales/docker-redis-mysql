@@ -30,13 +30,21 @@ app.get("/", (req, res) => {
 app.get("/get-user", async (req, res) => {
   
   let value = await client.get("user");
-  res.json({ message: JSON.stringify(value) });
+  res.json({ user : JSON.stringify(value) });
 
 });
 
 app.post("/set-user", async (req, res) => {
   
   let value = await client.set("user", req.body.user);
+  res.json({ message: JSON.stringify(value) });
+  
+});
+
+
+app.get("/logout", async (req, res) => {
+  
+  let value = await client.del("user");
   res.json({ message: JSON.stringify(value) });
   
 });

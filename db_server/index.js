@@ -19,7 +19,7 @@ app.use(
 
 
 var con = mysql.createConnection({
-  host: "localhost",
+  host: "db",
   user: "user",
   password: "password",
   database: "db"
@@ -37,7 +37,7 @@ app.get("/", (req, res) => {
 app.post("/create-note", (req, res) => {
     
 
-        var sql = `insert into notes (note) values ('${req.body.note}');`;
+        var sql = `insert into notes (note, user, color) values ('${req.body.note}', '${req.body.user}','${req.body.color}');`;
         con.query(sql, function (err, result) {
             if (err) throw err;
             console.log("1 record inserted");
