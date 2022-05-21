@@ -49,13 +49,6 @@ app.get("/logout", async (req, res) => {
   
 });
 
-// app.get("/", async (req, res) => {
-//   await client.connect();
-//   let value = await client.get("user");
-//   res.json({ message: JSON.stringify(value) });
-//   client.close();
-// });
-
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });

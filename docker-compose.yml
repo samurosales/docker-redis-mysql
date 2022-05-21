@@ -2,8 +2,8 @@ version: '3.8'
 services:
 
   website:
+    image: samurosales/noteapp_website:1.0
     restart: always
-    build: ./website
     ports:
       - "80:80"
     networks:
@@ -28,6 +28,7 @@ services:
     depends_on:
       - redis
   redis:
+    restart: always
     image: "redis:alpine"
     hostname: redis
     ports:
@@ -38,14 +39,25 @@ services:
   db:
     image: mysql:5.7
     restart: always
+
     environment:
-      MYSQL_DATABASE: 'db'
-      # So you don't have to use root, but you can if you like
-      MYSQL_USER: 'user'
+      MYSQL_USER: /run/secrets/db_user
+      MYSQL_DATABASE: /run/secrets/db_name
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/dbr_pass
+      MYSQL_PASSWORD_FILE: /run/secrets/db_pass
+
+    # environment:
+    #   MYSQL_DATABASE: 'db'
+    #   # So you don't have to use root, but you can if you like
+    #   MYSQL_USER: 'user'
       # You can use whatever password you like
-      MYSQL_PASSWORD: 'password'
-      # Password for root access
-      MYSQL_ROOT_PASSWORD: 'password'
+      # MYSQL_PASSWORD: 'password'
+      # # Password for root access
+      # MYSQL_ROOT_PASSWORD: 'password'
+    secrets:
+      - db_pass
+      - dbr_pass
+
     ports:
       # <Port exposed> : < MySQL Port running inside container>
       - '3306:3306'
@@ -65,3 +77,14 @@ volumes:
 
 networks:
   net:
+
+secrets:
+  db_pass:
+    file: ./db_pass.txt
+  dbr_pass:
+    file: ./dbr_pass.txt
+
+  db_name:
+    file: ./db_name.txt
+  db_user:
+    file: ./db_user.txt
